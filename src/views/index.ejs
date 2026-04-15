@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Sách</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn-delete { color: red; cursor: pointer; background: none; border: none; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <h1>Quản lý Sách</h1>
+
+    <fieldset>
+        <legend>Thêm sách mới</legend>
+        <form action="/books/add" method="POST">
+            <input type="text" name="title" placeholder="Tên sách" required>
+            <input type="text" name="author" placeholder="Tác giả" required>
+            <input type="number" name="year" placeholder="Năm xuất bản">
+            <button type="submit">Thêm sách</button>
+        </form>
+    </fieldset>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên sách</th>
+                <th>Tác giả</th>
+                <th>Năm</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (books.length > 0) { %>
+                <% books.forEach(book => { %>
+                    <tr>
+                        <td><%= book.title %></td>
+                        <td><%= book.author %></td>
+                        <td><%= book.year %></td>
+                        <td>
+                            <form action="/books/delete/<%= book._id %>" method="POST" style="display:inline;">
+                                <button type="submit" class="btn-delete" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4" style="text-align: center;">Chưa có sách nào trong kho.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+</body>
+</html>
